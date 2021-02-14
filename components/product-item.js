@@ -69,6 +69,7 @@ style.textContent = `
 
 var product = document.createElement('li');
 product.setAttribute('class','product');
+
 product.innerHTML = `
   <img width=200>
   <p class="title"></p>
@@ -77,7 +78,9 @@ product.innerHTML = `
 `
 
 class ProductItem extends HTMLElement {
+
   constructor() {
+
     super();
 
     this.attachShadow({ mode: 'open' });
@@ -86,7 +89,7 @@ class ProductItem extends HTMLElement {
 
     this.shadowRoot.querySelector('img').src = this.getAttribute('img-url');
     this.shadowRoot.querySelector('img').alt = this.getAttribute('img-alt');
-    
+
     this.shadowRoot.querySelector('.title').innerHTML = this.getAttribute('title');
     this.shadowRoot.querySelector('.price').innerHTML = this.getAttribute('price');
     this.shadowRoot.querySelector('button').value = this.getAttribute('id')
