@@ -5,9 +5,11 @@ var shoppingCart = [];
 myStorage = window.localStorage;
 
 window.addEventListener('DOMContentLoaded', () => {
-  if(localStorage.getItem('products')) {
-    console.log("Data fetched");
-  } else {
+
+  if (localStorage.getItem('products')) {
+    console.log("Data already fetched");
+  } 
+  else {
     fetch('https://fakestoreapi.com/products')
     .then(res => res.json())
     .then(data => localStorage.setItem('products', JSON.stringify(data)));
@@ -15,18 +17,27 @@ window.addEventListener('DOMContentLoaded', () => {
   
   var products = localStorage.getItem('products');
   JSON.parse(products).forEach(listProduct);
+  renderCart();
 
-  loadCart();
 });
 
 //Loads and lists product-item
 function listProduct(value) {
-  var product = `<product-item img-url="${value.image}" img-alt="${value.title}" title="${value.title}" price="$${value.price}" id="${value.id}" >`
+
+  var product = `
+              <product-item 
+              img-url="${value.image}" 
+              img-alt="${value.title}" 
+              title="${value.title}" 
+              price="$${value.price}" 
+              id="${value.id}" >
+              `
   document.getElementById('product-list').insertAdjacentHTML('beforeend', product);
 }
 
 //Cart item counting functionality
 function clickButton(event) {
+
   //Adds item, increases item count, changes button text to remove from cart
   if (event.target.innerHTML == "Add to Cart") {
     alert('Added to Cart!')
@@ -38,6 +49,7 @@ function clickButton(event) {
   } 
   //Removes item, decreases item count, changes button text to add to cart
   else {
+
     event.target.innerHTML = "Add to Cart";
     itemCount -= 1;
     document.getElementById("cart-count").innerHTML = itemCount;
@@ -50,7 +62,8 @@ function clickButton(event) {
   localStorage.setItem('cart', JSON.stringify(shoppingCart));
 }
 
-function loadCart() {
+function renderCart() {
+
   if (localStorage.getItem('cart')) {
     shoppingCart = JSON.parse(localStorage.getItem('cart'));
 
@@ -61,5 +74,5 @@ function loadCart() {
       document.getElementById(id).shadowRoot.querySelector('button').innerHTML = "Remove from Cart";
     });
   }
-  
+
 }
